@@ -6,16 +6,18 @@ export default function UpdateForm({ note, handleUpdate }) {
   const [updateTitle, setUpdateTitle] = useState(note.title);
   const [updateContent, setUpdateContent] = useState(note.content);
   return (
-    <form>
-      <input
-        type="text"
-        value={updateTitle}
-        onChange={(e) => setUpdateTitle(e.target.value)}
-      />
-      <textarea
-        value={updateContent}
-        onChange={(e) => setUpdateContent(e.target.value)}
-      />
+    <>
+      <form>
+        <input
+          type="text"
+          value={updateTitle}
+          onChange={(e) => setUpdateTitle(e.target.value)}
+        />
+        <textarea
+          value={updateContent}
+          onChange={(e) => setUpdateContent(e.target.value)}
+        />
+      </form>
       <button
         onClick={() =>
           handleUpdate({ title: updateTitle, content: updateContent })
@@ -23,6 +25,6 @@ export default function UpdateForm({ note, handleUpdate }) {
       >
         Save
       </button>
-    </form>
+    </>
   );
 }

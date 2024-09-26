@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import UpdateForm from "../UpdateForm/UpdateForm";
-import { set } from "mongoose";
 
 export default function Note({ singleNote }) {
   const [note, setNote] = useState(singleNote);
@@ -49,22 +48,29 @@ export default function Note({ singleNote }) {
         throw new Error("Failed to update note");
       }
 
+      const data = await response.json();
+
       setIsEditing(false);
-      setNote(response);
+      setNote(data);
     } catch (error) {
       console.error("Error updating note:", error);
     }
   };
 
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "2-digit",
+    year: "numeric",
+  }).format(new Date(note.date));
+
   return (
     <div>
       <h1>{note.title}</h1>
+      <h3>Date Created: {formattedDate}</h3>
       <p>{note.content}</p>
       <button onClick={handleDelete}>Delete Note</button>
       <button onClick={handleEdit}>Edit Note</button>
-      {isEditing && (
-        <UpdateForm note={note} handleUpdate={handleUpdate} />
-      )}
+      {isEditing && <UpdateForm note={note} handleUpdate={handleUpdate} />}
     </div>
   );
 }
